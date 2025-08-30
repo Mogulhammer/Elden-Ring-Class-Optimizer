@@ -1,8 +1,13 @@
 #include <stdio.h>
 
-#define ARRAY_SIZE 10
+#define ARRAY_SIZE 12
 
-struct EldenRing_class{
+#define FIND_LEVEL_DIFFERENCE(field)\
+	total_level += (temp_class.field > starting_class.field)\
+	?(temp_class.field - starting_class.field)\
+	:0;
+
+typedef struct{
 	int vigor;
 	int mind;
 	int endurance;
@@ -12,31 +17,42 @@ struct EldenRing_class{
 	int faith;
 	int arcane;
 	
-	int starting_level;
-	int ending_level;
-};
-
-//ok add a second eldenring class parameter, then find the difference between the two classes for every stat then add the starting level.
-int find_total_level(struct EldenRing_class temp_class)
-{
-    temp_class.ending_level = temp_class.vigor + temp_class.mind + temp_class.endurance + temp_class.strength + temp_class.dexterity
-	+ temp_class.intelligence + temp_class.faith + temp_class.arcane - 79;
+	const char *name;
 	
-	return temp_class.ending_level;
+	int starting_level;
+}EldenRing_class;
+
+int find_total_level(EldenRing_class temp_class, EldenRing_class starting_class)
+{
+	int total_level = starting_class.starting_level;
+	
+	FIND_LEVEL_DIFFERENCE(vigor)
+	FIND_LEVEL_DIFFERENCE(mind)
+	FIND_LEVEL_DIFFERENCE(endurance)
+	FIND_LEVEL_DIFFERENCE(strength)
+	FIND_LEVEL_DIFFERENCE(dexterity)
+	FIND_LEVEL_DIFFERENCE(intelligence)
+	FIND_LEVEL_DIFFERENCE(faith)
+	FIND_LEVEL_DIFFERENCE(arcane)
+	
+	return total_level;
 }
 
 int main()
 {
-    struct EldenRing_class hero;
-	struct EldenRing_class vagabond;
-	struct EldenRing_class warrior;
-	struct EldenRing_class bandit;
-	struct EldenRing_class astrologer;
-	struct EldenRing_class prophet;
-	struct EldenRing_class samurai;
-	struct EldenRing_class prisoner;
-	struct EldenRing_class confessor;
-	struct EldenRing_class wretch;
+    EldenRing_class hero;
+	EldenRing_class vagabond;
+	EldenRing_class warrior;
+    EldenRing_class bandit;
+	EldenRing_class astrologer;
+	EldenRing_class prophet;
+	EldenRing_class samurai;
+	EldenRing_class prisoner;
+	EldenRing_class confessor;
+	EldenRing_class wretch;
+	EldenRing_class heavy_knight;
+	EldenRing_class ides_knight;
+	
 	
 	hero.vigor = 14;
 	hero.mind = 9;
@@ -47,6 +63,7 @@ int main()
 	hero.faith = 8;
 	hero.arcane = 11;
 	hero.starting_level = 7;
+	hero.name = "hero";
 	
 	vagabond.vigor = 15;
 	vagabond.mind = 10;
@@ -57,6 +74,7 @@ int main()
 	vagabond.faith = 9;
 	vagabond.arcane = 7;
 	vagabond.starting_level = 9;
+	vagabond.name = "vagabond";
 	
 	warrior.vigor = 11;
 	warrior.mind = 12;
@@ -67,6 +85,7 @@ int main()
 	warrior.faith = 8;
 	warrior.arcane = 9;
 	warrior.starting_level = 8;
+	warrior.name = "warrior";
 	
 	bandit.vigor = 10;
 	bandit.mind = 11;
@@ -77,6 +96,7 @@ int main()
 	bandit.faith = 8;
 	bandit.arcane = 14;
 	bandit.starting_level = 5;
+	bandit.name = "bandit";
 
 	astrologer.vigor = 9;
 	astrologer.mind = 15;
@@ -87,16 +107,18 @@ int main()
 	astrologer.faith = 7;
 	astrologer.arcane = 9;
 	astrologer.starting_level = 6;
+	astrologer.name = "astrologer";
 	
 	prophet.vigor = 10;
 	prophet.mind = 14;
 	prophet.endurance = 8;
 	prophet.strength = 11;
-	prophet.strength = 10;
+	prophet.dexterity = 10;
 	prophet.intelligence = 7;
 	prophet.faith = 16;
 	prophet.arcane = 10;
 	prophet.starting_level = 7;
+	prophet.name = "prophet";
 	
 	samurai.vigor =12;
 	samurai.mind = 11;
@@ -107,6 +129,7 @@ int main()
 	samurai.faith = 8;
 	samurai.arcane = 8;
 	samurai.starting_level = 9;
+	samurai.name = "samurai";
 	
 	prisoner.vigor = 11;
 	prisoner.mind = 12;
@@ -117,6 +140,7 @@ int main()
 	prisoner.faith = 6;
 	prisoner.arcane = 9;
 	prisoner.starting_level = 9;
+	prisoner.name = "prisoner";
 	
 	confessor.vigor = 10;
 	confessor.mind = 13;
@@ -127,6 +151,7 @@ int main()
 	confessor.faith = 14;
 	confessor.arcane = 9;
 	confessor.starting_level = 10;
+	confessor.name = "confessor";
 	
 	wretch.vigor = 10;
 	wretch.mind = 10;
@@ -137,8 +162,33 @@ int main()
 	wretch.faith = 10;
 	wretch.arcane = 10;
 	wretch.starting_level = 1;
+	wretch.name = "wretch";
 	
-	struct EldenRing_class class_array[ARRAY_SIZE] = {
+	heavy_knight.vigor = 14;
+	heavy_knight.mind = 7;
+	heavy_knight.endurance = 17;
+	heavy_knight.strength = 15;
+	heavy_knight.dexterity = 11;
+	heavy_knight.intelligence = 7;
+	heavy_knight.faith = 7;
+	heavy_knight.arcane = 9;
+	heavy_knight.starting_level = 8;
+	heavy_knight.name = "heavy armored knight";
+	
+	ides_knight.vigor = 10;
+	ides_knight.mind = 10;
+	ides_knight.endurance = 11;
+	ides_knight.strength = 13;
+	ides_knight. dexterity = 15;
+	ides_knight.intelligence = 8;
+	ides_knight.faith = 11;
+	ides_knight.arcane = 6;
+	ides_knight.starting_level = 7;
+	ides_knight.name = "knight of ides";
+	
+	
+	
+	EldenRing_class class_array[ARRAY_SIZE] = {
 		hero,
 		vagabond,
 		warrior,
@@ -148,16 +198,14 @@ int main()
 		samurai,
 		prisoner,
 		confessor,
-		wretch
+		wretch,
+		heavy_knight,
+		ides_knight
 	};
-	
-	int ending_level = find_total_level(class_array[0]);
-		
-		printf("%d\n", ending_level);
 	
 	while(1)
 	{
-		struct EldenRing_class temp_class;
+		EldenRing_class temp_class;
 		printf("Enter vigor: ");
 		scanf("%d", &temp_class.vigor);
 		
@@ -182,10 +230,12 @@ int main()
 		printf("Enter arcane: ");
 		scanf("%d", &temp_class.arcane);
 		
-		/*for(int i = 0; i < ARRAY_SIZE; i++)
+		int test = find_total_level(temp_class, class_array[0]);
+		
+		for(int i = 0; i < ARRAY_SIZE; i++)
 		{
-			int ending_level = 0;
-			ending_level = find_total_level(class_array[i]);
-		}*/
+			int total_level = find_total_level(temp_class, class_array[i]);
+			printf("%s: %d\n", class_array[i].name, total_level);
+		}
 	}
 }
