@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define ARRAY_SIZE 12
 
@@ -20,6 +21,7 @@ typedef struct{
 	const char *name;
 	
 	int starting_level;
+	int ending_level;
 }EldenRing_class;
 
 int find_total_level(EldenRing_class temp_class, EldenRing_class starting_class)
@@ -36,6 +38,38 @@ int find_total_level(EldenRing_class temp_class, EldenRing_class starting_class)
 	FIND_LEVEL_DIFFERENCE(arcane)
 	
 	return total_level;
+}
+
+int compare_classes(const void *class1, const void *class2)
+{
+	EldenRing_class c1 = *(EldenRing_class *)class1;
+	EldenRing_class c2 = *(EldenRing_class *)class2;
+	return c1.ending_level - c2.ending_level;
+}
+
+void input_check(char *prompt)
+{
+	char *buffer;
+	int value;
+	
+	printf("%s", prompt);
+	
+	while(1)
+	{
+		if(!fgets(buffer, 100, stdin))
+		{
+			printf("Please enter valid input.\n");
+		}
+		else break;
+	}
+	
+	value = strtol(buffer, NULL , 10);
+	
+	while(1)
+	{
+		if(
+	}
+	
 }
 
 int main()
@@ -179,7 +213,7 @@ int main()
 	ides_knight.mind = 10;
 	ides_knight.endurance = 11;
 	ides_knight.strength = 13;
-	ides_knight. dexterity = 15;
+	ides_knight.dexterity = 15;
 	ides_knight.intelligence = 8;
 	ides_knight.faith = 11;
 	ides_knight.arcane = 6;
@@ -230,12 +264,17 @@ int main()
 		printf("Enter arcane: ");
 		scanf("%d", &temp_class.arcane);
 		
-		int test = find_total_level(temp_class, class_array[0]);
+		printf("\n");
+		for(int i = 0; i < ARRAY_SIZE; i++)
+		{
+			class_array[i].ending_level = find_total_level(temp_class, class_array[i]);
+		}
+		
+		qsort(class_array, ARRAY_SIZE, sizeof(EldenRing_class), compare_classes);
 		
 		for(int i = 0; i < ARRAY_SIZE; i++)
 		{
-			int total_level = find_total_level(temp_class, class_array[i]);
-			printf("%s: %d\n", class_array[i].name, total_level);
+			printf("%s: %d\n", class_array[i].name, class_array[i].ending_level);
 		}
 	}
 }
